@@ -96,6 +96,8 @@ class ModalEntry extends StatefulWidget {
     this.belowTag,
     this.removeOnPop = false,
     this.removeOnPushNext = false,
+    this.barrierDismissible = false,
+    this.barrierColor = Colors.transparent,
     this.onRemove,
     required this.child,
   })  : offset = Offset.zero,
@@ -119,6 +121,8 @@ class ModalEntry extends StatefulWidget {
     this.offset = Offset.zero,
     this.removeOnPop = false,
     this.removeOnPushNext = false,
+    this.barrierDismissible = false,
+    this.barrierColor = Colors.transparent,
     this.onRemove,
     required this.child,
   })  : left = 0,
@@ -168,6 +172,12 @@ class ModalEntry extends StatefulWidget {
 
   /// Remove [ModalEntry] on push
   final bool removeOnPushNext;
+
+  /// Modal barrier color
+  final Color barrierColor;
+
+  /// Remove [ModalEntry] on tapping the barrier
+  final bool barrierDismissible;
 
   /// Callback function on [ModalEntry] removal
   final VoidCallback? onRemove;
@@ -231,24 +241,33 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.anchorTag != null) {
-      return Positioned(
-        top: widget.top,
-        left: widget.left,
-        bottom: widget.bottom,
-        right: widget.right,
-        child: CompositedTransformFollower(
-          link: link!,
-          showWhenUnlinked: false,
-          offset: widget.offset,
-          targetAnchor: widget.anchorAlignment,
-          followerAnchor: widget.modalAlignment,
-          child: widget.child,
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: IgnorePointer(
+            ignoring: !widget.barrierDismissible,
+            child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => remove(),
+                child: ColoredBox(color: widget.barrierColor)),
+          ),
         ),
-      );
-    } else {
-      return Stack(
-        children: [
+        if (widget.anchorTag != null)
+          Positioned(
+            top: widget.top,
+            left: widget.left,
+            bottom: widget.bottom,
+            right: widget.right,
+            child: CompositedTransformFollower(
+              link: link!,
+              showWhenUnlinked: false,
+              offset: widget.offset,
+              targetAnchor: widget.anchorAlignment,
+              followerAnchor: widget.modalAlignment,
+              child: widget.child,
+            ),
+          )
+        else
           Positioned(
             top: widget.top,
             left: widget.left,
@@ -256,9 +275,8 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
             right: widget.right,
             child: widget.child,
           ),
-        ],
-      );
-    }
+      ],
+    );
   }
 }
 
