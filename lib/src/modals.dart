@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+enum _ModalEntryType { positioned, aligned, anchored }
+
 class _Leader {
   const _Leader(this.layerlink, this.followers);
 
@@ -104,8 +106,35 @@ class ModalEntry extends StatefulWidget {
         anchorTag = null,
         anchorAlignment = Alignment.center,
         modalAlignment = Alignment.center,
+        alignment = Alignment.center,
+        _modalEntryType = _ModalEntryType.positioned,
         assert(left == null || right == null),
         assert(top == null || bottom == null),
+        assert(aboveTag == null || belowTag == null),
+        super(key: key);
+
+  const ModalEntry.aligned(
+    this.context, {
+    Key? key,
+    required this.tag,
+    required this.alignment,
+    this.aboveTag,
+    this.belowTag,
+    this.anchorAlignment = Alignment.center,
+    this.modalAlignment = Alignment.center,
+    this.offset = Offset.zero,
+    this.removeOnPop = false,
+    this.removeOnPushNext = false,
+    this.barrierDismissible = false,
+    this.barrierColor = Colors.transparent,
+    this.onRemove,
+    required this.child,
+  })  : left = null,
+        top = null,
+        right = null,
+        bottom = null,
+        anchorTag = null,
+        _modalEntryType = _ModalEntryType.aligned,
         assert(aboveTag == null || belowTag == null),
         super(key: key);
 
@@ -129,6 +158,8 @@ class ModalEntry extends StatefulWidget {
         top = null,
         right = null,
         bottom = 0,
+        alignment = Alignment.center,
+        _modalEntryType = _ModalEntryType.anchored,
         assert(aboveTag == null || belowTag == null),
         super(key: key);
 
@@ -150,6 +181,8 @@ class ModalEntry extends StatefulWidget {
   final double? top;
   final double? right;
   final double? bottom;
+
+  final Alignment alignment;
 
   /// The additional offset to apply to the [ModalEntry] position
   final Offset offset;
@@ -181,6 +214,8 @@ class ModalEntry extends StatefulWidget {
 
   /// Callback function on [ModalEntry] removal
   final VoidCallback? onRemove;
+
+  final _ModalEntryType _modalEntryType;
 
   @override
   ModalEntryState createState() => ModalEntryState();
@@ -252,7 +287,20 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
                 child: ColoredBox(color: widget.barrierColor)),
           ),
         ),
-        if (widget.anchorTag != null)
+        if (widget._modalEntryType == _ModalEntryType.positioned)
+          Positioned(
+            top: widget.top,
+            left: widget.left,
+            bottom: widget.bottom,
+            right: widget.right,
+            child: widget.child,
+          )
+        else if (widget._modalEntryType == _ModalEntryType.aligned)
+          Align(
+            alignment: widget.alignment,
+            child: widget.child,
+          )
+        else if (widget._modalEntryType == _ModalEntryType.anchored)
           Positioned(
             top: widget.top,
             left: widget.left,
@@ -267,14 +315,6 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
               child: widget.child,
             ),
           )
-        else
-          Positioned(
-            top: widget.top,
-            left: widget.left,
-            bottom: widget.bottom,
-            right: widget.right,
-            child: widget.child,
-          ),
       ],
     );
   }

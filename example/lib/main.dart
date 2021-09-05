@@ -1,9 +1,11 @@
-import 'package:example/pages/anchor_page.dart';
-import 'package:example/pages/positioned_page.dart';
-import 'package:example/pages/priority_page.dart';
-import 'package:example/pages/routes_page.dart';
 import 'package:flutter/material.dart';
 import 'package:modals/modals.dart';
+
+import 'pages/aligned_page.dart';
+import 'pages/anchor_page.dart';
+import 'pages/positioned_page.dart';
+import 'pages/priority_page.dart';
+import 'pages/routes_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,9 +38,10 @@ class _HomeState extends State<_Home> {
   int _currentPage = 0;
   static const _pages = [
     PositionedPage(),
+    AlignedPage(),
     AnchorPage(),
     RoutesPage(),
-    PriorityPage()
+    PriorityPage(),
   ];
 
   @override
@@ -55,6 +58,10 @@ class _HomeState extends State<_Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.branding_watermark),
             label: 'Positioned',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.branding_watermark_sharp),
+            label: 'Aligned',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.anchor),

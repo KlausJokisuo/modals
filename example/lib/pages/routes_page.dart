@@ -21,17 +21,14 @@ class RoutesPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    final size = MediaQuery.of(context).size;
-                    final xPosition = (size.width / 2).round().toDouble();
-                    final yPosition = (size.height / 2).round().toDouble();
-                    showModal(ModalEntry.positioned(context,
+                    showModal(ModalEntry.aligned(context,
                         tag: 'firstRouteModalTag',
-                        left: xPosition,
-                        top: yPosition,
+                        alignment: Alignment.center,
                         removeOnPushNext: true,
                         child: Material(
                           color: Colors.transparent,
                           child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                                 color: Colors.green,
@@ -91,17 +88,14 @@ class _Route extends StatelessWidget {
                   padding: const EdgeInsets.all(24.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      final size = MediaQuery.of(context).size;
-                      final xPosition = (size.width / 2).round().toDouble();
-                      final yPosition = (size.height / 2).round().toDouble();
-                      showModal(ModalEntry.positioned(context,
+                      showModal(ModalEntry.aligned(context,
                           tag: 'secondRouteModalTag',
-                          left: xPosition,
-                          top: yPosition,
+                          alignment: Alignment.center,
                           removeOnPop: true,
                           child: Material(
                             color: Colors.transparent,
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
                                   color: Colors.black,
