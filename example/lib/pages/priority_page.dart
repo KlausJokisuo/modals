@@ -9,19 +9,16 @@ class PriorityPage extends StatefulWidget {
 }
 
 class _PriorityPageState extends State<PriorityPage> {
-  final xPosition = 200.0;
-  final yPosition = 200.0;
-
   @override
   void initState() {
     super.initState();
-    showModal(ModalEntry.positioned(context,
+    showModal(ModalEntry.aligned(context,
         tag: 'firstTag',
-        left: xPosition,
-        top: yPosition,
+        alignment: Alignment.center,
         child: Material(
           color: Colors.transparent,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 color: Colors.yellow,
@@ -47,14 +44,14 @@ class _PriorityPageState extends State<PriorityPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      showModal(ModalEntry.positioned(context,
+                      showModal(ModalEntry.aligned(context,
                           tag: 'secondTag',
-                          left: xPosition,
-                          top: yPosition,
+                          alignment: Alignment.center,
                           aboveTag: 'firstTag',
                           child: Material(
                             color: Colors.transparent,
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
                                   color: Colors.red,
@@ -66,14 +63,14 @@ class _PriorityPageState extends State<PriorityPage> {
                             ),
                           )));
 
-                      showModal(ModalEntry.positioned(context,
+                      showModal(ModalEntry.aligned(context,
                           tag: 'thirdTag',
-                          left: xPosition,
-                          top: yPosition,
+                          alignment: Alignment.center,
                           belowTag: 'firstTag',
                           child: Material(
                             color: Colors.transparent,
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
                                   color: Colors.green,
