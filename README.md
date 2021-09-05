@@ -7,6 +7,11 @@
 </p>
 
 _Flutter overlays simplified_!
+
+<p align="center">
+<a href="https://pub.dev/packages/modals"><img src="https://img.shields.io/pub/v/modals?color=blue" alt="Pub"></a>
+</p>
+
 </div>
 
 ## Motivation
@@ -174,7 +179,7 @@ _Below parameters are configured in `ModalEntry`._
 
 * Observing route changes
     * `removeOnPop`
-        * The modal is removed when new route is pushed on top of the route where the modal exists
+        * The modal is removed when route is popped where the modal exists
     * `removeOnPushNext`
         * The modal is removed when new route is pushed on top of the route where the modal exists
 
