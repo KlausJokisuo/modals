@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:modals/modals.dart';
 
 void main() {
-  group('positioned', () {
-    testWidgets('position modal with ModalEntry.positioned', (tester) async {
+  group('position modal with ModalEntry.positioned', () {
+    testWidgets('position modal to absolute position', (tester) async {
       const right = 190.0;
       const bottom = 155.0;
       const childrenHeight = 40.0;

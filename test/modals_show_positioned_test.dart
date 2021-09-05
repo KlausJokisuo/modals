@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:modals/modals.dart';
 
 void main() {
-  group('show positioned', () {
+  group('show modals', () {
     testWidgets('show modal using initState', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: TestWidget()));
       await tester.pump();
