@@ -18,18 +18,24 @@ Say hello&nbsp;👋 &nbsp;to **Modals**, a package to simplify all your _overlay
 
 ## Features
 
-* Show and remove modals easily
-* Show modals using absolute position
-* Position modals based on another widget position
+* Show modals easily
+  * Position modals using absolute position
+  * Position modals using alignment
+  * Position modals based on another widget position
 * Prioritise modal visibility
-* Remove modals on Pop and Push
+* Remove modals easily
+  * Remove modal by id
+  * Remove all modals at once
+  * Remove modal by tapping modal barrier
+  * Remove modals on route changes
+
 
 
 ## How to use
 
 ### Showing modals
 `showModal` is used to show modals. Function accepts a `ModalEntry` as parameter.
-`ModalEntry` has two options `ModalEntry.positioned` and `ModalEntry.anchored`
+`ModalEntry` has 3 options `ModalEntry.positioned`, `ModalEntry.aligned` and `ModalEntry.anchored`
 
 #### Positioned
 ```dart
@@ -58,7 +64,36 @@ class PositionedModalExample extends StatelessWidget {
 }
 ```
 
-Above example positions your `widget` to wanted position.
+Above example positions your `widget` to absolute position of left: 200 and top 200.
+
+
+#### Aligned
+```dart
+class AlignmentModalExample extends StatelessWidget {
+  const AlignmentModalExample({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          showModal(ModalEntry.aligned(context,
+                  tag: 'containerModal',
+                  alignment: Alignment.center,
+                  child: Container(
+                    color: Colors.red,
+                    width: 50,
+                    height: 50,
+                  )));
+        },
+        child: const Text('Show Modal'),
+      ),
+    );
+  }
+}
+```
+
+Above example aligns your `widget` to center of the screen.
 
 #### Anchored
 
@@ -112,14 +147,6 @@ Above example positions `widget` at next to `ModalAnchor widget`.
 
 _To make widget act as an anchor, wrap widget with `ModalAnchor` widget._
 
-### Removing modals
-
-You have 2 options to remove modals
-
-`removeModal(String id)` removes modal by the given id
-
-`removeAllModals()` removes all modals
-
 ### Prioritising modals
 
 To prioritise modals, use `aboveTag` and `belowTag` parameters.
@@ -131,10 +158,28 @@ To prioritise modals, use `aboveTag` and `belowTag` parameters.
 * `belowTag`
   * Modal will be positioned just above given `belowTag`
 
+### Removing modals
 
-### Using removeOnPop and removeOnPushNext
+You have 4 options to remove modals
 
-To remove modal on route change, you need to add navigator observer to your root widget.
+`removeModal(String id)` removes modal by the given id
+
+`removeAllModals()` removes all modals
+
+_Below parameters are configured in `ModalEntry`._
+
+* Tapping modal barrier
+  * `barrierDismissible` when `true` (defaults to `false`) removes modal when tapping the barrier
+  * `barrierColor` change barrier color (defaults to `Colors.transparent`)
+  
+
+* Observing route changes
+  * `removeOnPop` 
+    * The modal is removed when new route is pushed on top of the route where the modal exists
+  * `removeOnPushNext`
+    * The modal is removed when new route is pushed on top of the route where the modal exists
+
+_To enable observing route changes, add navigator observer to root widget._
 
 ````dart
 class MyApp extends StatelessWidget {
@@ -153,15 +198,6 @@ class MyApp extends StatelessWidget {
   }
 }
 ````
-
-* `removeOnPop`
-  * The modal is removed when route is popped where the modal exists
-
-* `removeOnPushNext`
-  * The modal is removed when new route is pushed on top of the route where the modal exists
-
-
-
 
 
 See the [Examples](https://github.com/KlausJokisuo/modals/tree/master/example) for more information
