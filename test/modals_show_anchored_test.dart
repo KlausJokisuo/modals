@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:modals/modals.dart';
 
 void main() {
-  group('show anchored', () {
-    testWidgets('show anchored modal using gesture', (tester) async {
+  group('position modal with ModalEntry.anchored', () {
+    testWidgets('position modal on top of ModalAnchor', (tester) async {
       await tester.pumpWidget(const MaterialApp(home: TestWidget()));
       await tester.tap(find.byKey(
         const Key('showModalButton'),
