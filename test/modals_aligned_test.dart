@@ -49,7 +49,6 @@ class _TestWidgetState extends State<TestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return const SizedBox.shrink();
   }
 }
