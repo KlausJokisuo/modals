@@ -1,3 +1,9 @@
+## 0.0.3
+
+* feat: add more tests
+* fix: allow using setState within onRemove callback
+
+
 ## 0.0.2+2
 
 * fix: readme
