@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 enum _ModalEntryType { positioned, aligned, anchored }
 
@@ -254,7 +252,9 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
   void remove() {
     if (mounted) {
       if (widget.onRemove != null) {
-        widget.onRemove!();
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          widget.onRemove!();
+        });
       }
       removeModal(widget.tag);
     }
