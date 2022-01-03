@@ -41,7 +41,15 @@ void showModal(ModalEntry modalEntry) {
     if (navigatorObservers.isEmpty) {
       throw _routeObserverError;
     }
-    _routeObserver = navigatorObservers.first as RouteObserver<ModalRoute>;
+
+    try {
+      _routeObserver = navigatorObservers.firstWhere(
+              (navigatorObserver) => navigatorObserver is RouteObserver)
+          as RouteObserver<ModalRoute>?;
+    } catch (e) {
+      throw _routeObserverError;
+    }
+
   }
 
   final overlayState = Overlay.of(context, rootOverlay: true);
