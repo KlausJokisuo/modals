@@ -49,7 +49,6 @@ void showModal(ModalEntry modalEntry) {
     } catch (e) {
       throw _routeObserverError;
     }
-
   }
 
   final overlayState = Overlay.of(context, rootOverlay: true);
@@ -106,6 +105,7 @@ class ModalEntry extends StatefulWidget {
     this.removeOnPushNext = false,
     this.barrierDismissible = false,
     this.barrierColor = Colors.transparent,
+    this.hasBarrier = true,
     this.onRemove,
     required this.child,
   })  : offset = Offset.zero,
@@ -133,6 +133,7 @@ class ModalEntry extends StatefulWidget {
     this.removeOnPushNext = false,
     this.barrierDismissible = false,
     this.barrierColor = Colors.transparent,
+    this.hasBarrier = true,
     this.onRemove,
     required this.child,
   })  : left = null,
@@ -158,6 +159,7 @@ class ModalEntry extends StatefulWidget {
     this.removeOnPushNext = false,
     this.barrierDismissible = false,
     this.barrierColor = Colors.transparent,
+    this.hasBarrier = true,
     this.onRemove,
     required this.child,
   })  : left = 0,
@@ -214,6 +216,11 @@ class ModalEntry extends StatefulWidget {
 
   /// Modal barrier color
   final Color barrierColor;
+
+  /// Enables or disables the barrier.
+  ///
+  /// Defaults to true.
+  final bool hasBarrier;
 
   /// Remove [ModalEntry] on tapping the barrier
   final bool barrierDismissible;
@@ -286,15 +293,16 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
-          child: IgnorePointer(
-            ignoring: !widget.barrierDismissible,
-            child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => remove(),
-                child: ColoredBox(color: widget.barrierColor)),
+        if (widget.hasBarrier)
+          Positioned.fill(
+            child: IgnorePointer(
+              ignoring: !widget.barrierDismissible,
+              child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => remove(),
+                  child: ColoredBox(color: widget.barrierColor)),
+            ),
           ),
-        ),
         if (widget._modalEntryType == _ModalEntryType.positioned)
           Positioned(
             top: widget.top,
