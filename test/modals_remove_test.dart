@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:modals/modals.dart';
 
 void main() {
-  Future<void> _initTestWidgets(WidgetTester tester, String firstModalTag,
+  Future<void> initTestWidgets(WidgetTester tester, String firstModalTag,
       String secondModalTag, String thirdModalTag) async {
     await tester.pumpWidget(MaterialApp(
         home: TestWidget(
@@ -20,21 +20,21 @@ void main() {
     const thirdModalId = 'thirdModalTag';
 
     testWidgets('remove modal by id', (tester) async {
-      await _initTestWidgets(tester, firstModalId, secondModalId, thirdModalId);
+      await initTestWidgets(tester, firstModalId, secondModalId, thirdModalId);
       removeModal(firstModalId);
       await tester.pump();
       expect(find.byType(ModalEntry), findsNWidgets(2));
     });
 
     testWidgets('remove all modals', (tester) async {
-      await _initTestWidgets(tester, firstModalId, secondModalId, thirdModalId);
+      await initTestWidgets(tester, firstModalId, secondModalId, thirdModalId);
       removeAllModals();
       await tester.pump();
       expect(find.byType(ModalEntry), findsNothing);
     });
 
     testWidgets('remove modal by tapping barrier', (tester) async {
-      await _initTestWidgets(tester, firstModalId, secondModalId, thirdModalId);
+      await initTestWidgets(tester, firstModalId, secondModalId, thirdModalId);
       await tester.tapAt(const Offset(10.0, 10.0));
       await tester.pump();
       expect(find.byType(ModalEntry), findsNWidgets(2));
