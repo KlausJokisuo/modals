@@ -14,40 +14,22 @@ class _Leader {
   }
 }
 
-final _routeObserverError = FlutterError.fromParts(<DiagnosticsNode>[
-  ErrorSummary('RouteObserver was not found on given context'),
-  ErrorDescription(
-    'If removeOnPop or removeOnPushNext are used, then routeObserver must be set.\n'
-    'For more information please refer to https://api.flutter.dev/flutter/widgets/RouteObserver-class.html',
-  )
-]);
-
 final Map<String?, OverlayEntry> _modalsMap = {};
 final Map<String, _Leader> _anchorMap = {};
-RouteObserver<ModalRoute>? _routeObserver;
+final modalsRouteObserver = RouteObserver<ModalRoute<dynamic>>();
 
 void showModal(ModalEntry modalEntry) {
   final context = modalEntry.context;
 
   if (modalEntry.removeOnPop || modalEntry.removeOnPushNext) {
-    final widgetsApp = context.findAncestorWidgetOfExactType<WidgetsApp>();
-
-    if (widgetsApp == null) {
-      throw _routeObserverError;
-    }
-
-    final navigatorObservers = widgetsApp.navigatorObservers ?? [];
-
-    if (navigatorObservers.isEmpty) {
-      throw _routeObserverError;
-    }
-
-    try {
-      _routeObserver = navigatorObservers.firstWhere(
-              (navigatorObserver) => navigatorObserver is RouteObserver)
-          as RouteObserver<ModalRoute>?;
-    } catch (e) {
-      throw _routeObserverError;
+    if (modalsRouteObserver.navigator == null) {
+      throw FlutterError.fromParts(<DiagnosticsNode>[
+        ErrorSummary('modalsRouteObserver was not set as navigatorObserver'),
+        ErrorDescription(
+          'If removeOnPop or removeOnPushNext are used, then modalsRouteObserver must be set.\n'
+          'For more information please refer to https://api.flutter.dev/flutter/widgets/RouteObserver-class.html',
+        )
+      ]);
     }
   }
 
@@ -246,12 +228,13 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
       _anchorMap[widget.anchorTag]!.followers.add(widget.tag);
     }
 
-    _routeObserver?.subscribe(this, ModalRoute.of(widget.context) as PageRoute);
+    modalsRouteObserver.subscribe(
+        this, ModalRoute.of(widget.context) as PageRoute);
   }
 
   @override
   void dispose() {
-    _routeObserver?.unsubscribe(this);
+    modalsRouteObserver.unsubscribe(this);
     remove();
     super.dispose();
   }
