@@ -193,7 +193,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'AppModals',
-      navigatorObservers: [RouteObserver<ModalRoute<dynamic>>()], // <- This line here
+      navigatorObservers: [modalsRouteObserver], // <- This line here. Imported from modals
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
