@@ -43,21 +43,23 @@ void showModal(ModalEntry modalEntry) {
     }
 
     try {
-      _routeObserver =
-          navigatorObservers.firstWhere((navigatorObserver) => navigatorObserver is RouteObserver)
-              as RouteObserver<ModalRoute>?;
+      _routeObserver = navigatorObservers.firstWhere(
+              (navigatorObserver) => navigatorObserver is RouteObserver)
+          as RouteObserver<ModalRoute>?;
     } catch (e) {
       throw _routeObserverError;
     }
   }
 
   final overlayState = Overlay.of(context, rootOverlay: true);
-  final overlayEntry = OverlayEntry(builder: (BuildContext context) => modalEntry);
+  final overlayEntry =
+      OverlayEntry(builder: (BuildContext context) => modalEntry);
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
     if (_modalsMap.containsKey(modalEntry.tag)) {
       throw FlutterError.fromParts(<DiagnosticsNode>[
-        ErrorSummary('There are multiple modal entries that share the same tag'),
+        ErrorSummary(
+            'There are multiple modal entries that share the same tag'),
         ErrorDescription(
           'Each ModalEntry must have a unique non-null tag.\n'
           'In this case, multiple modal entries had the following tag: ${modalEntry.tag}',
@@ -326,7 +328,8 @@ class ModalEntryState extends State<ModalEntry> with RouteAware {
 }
 
 class ModalAnchor extends StatefulWidget {
-  const ModalAnchor({Key? key, required this.tag, required this.child}) : super(key: key);
+  const ModalAnchor({Key? key, required this.tag, required this.child})
+      : super(key: key);
 
   /// Unique tag for [ModalAnchor]
   final String tag;
@@ -344,7 +347,8 @@ class _ModalAnchorState extends State<ModalAnchor> {
     super.initState();
     if (_anchorMap.containsKey(widget.tag)) {
       throw FlutterError.fromParts(<DiagnosticsNode>[
-        ErrorSummary('There are multiple modal anchors that share the same tag'),
+        ErrorSummary(
+            'There are multiple modal anchors that share the same tag'),
         ErrorDescription(
           'Each ModalAnchor must have a unique non-null tag.\n'
           'In this case, multiple modal anchors had the following tag: ${widget.tag}',
