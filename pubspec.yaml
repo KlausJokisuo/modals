@@ -1,6 +1,6 @@
 name: modals
 description: Modals, a Flutter package to simplify all your overlay needs!
-version: 0.1.0
+version: 1.0.0+1
 repository: https://github.com/KlausJokisuo/modals
 issue_tracker: https://github.com/KlausJokisuo/modals/issues
 homepage: https://github.com/KlausJokisuo/modals

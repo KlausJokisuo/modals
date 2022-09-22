@@ -1,3 +1,11 @@
+## 0.0.4
+
+* **BREAKING**: fix: route aware modals when using MaterialApp.router
+  * Instead of `navigatorObservers: [RouteObserver<ModalRoute<dynamic>>()]` use `navigatorObservers: [modalsRouteObserver]`
+* fix: remove optional bang operators (Thanks @Maatteogekko)
+* fix: linter warnings
+
+
 ## 0.0.3
 
 * feat: add more tests
