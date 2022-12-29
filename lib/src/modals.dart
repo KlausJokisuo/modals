@@ -72,6 +72,17 @@ void removeAllModals() {
   _modalsMap.clear();
 }
 
+/// Dissociate the [tagName] with the `ModalAnchor`, if associated earlier
+void detachAnchorTag(String tagName){
+  if(!_anchorMap.containsKey(tagName)){
+    return;
+  }
+  for (final follower in _anchorMap[tagName]!.followers) {
+      _modalsMap.remove(follower);
+  }
+  _anchorMap.remove(tagName);
+}
+
 class ModalEntry extends StatefulWidget {
   const ModalEntry.positioned(
     this.context, {
@@ -343,11 +354,12 @@ class _ModalAnchorState extends State<ModalAnchor> {
 
   @override
   void dispose() {
-    for (final follower in _anchorMap[widget.tag]!.followers) {
-      _modalsMap.remove(follower);
-    }
+    // for (final follower in _anchorMap[widget.tag]!.followers) {
+    //   _modalsMap.remove(follower);
+    // }
 
-    _anchorMap.remove(widget.tag);
+    // _anchorMap.remove(widget.tag);
+    detachAnchorTag(widget.tag);
     super.dispose();
   }
 
