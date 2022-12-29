@@ -72,6 +72,11 @@ void removeAllModals() {
   _modalsMap.clear();
 }
 
+/// Dissociate the [tagName] with the `ModalAnchor`, if associated earlier
+void detachAnchorTag(String tagName){
+  _anchorMap.remove(widget.tag);
+}
+
 class ModalEntry extends StatefulWidget {
   const ModalEntry.positioned(
     this.context, {
